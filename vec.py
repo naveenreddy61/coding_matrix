@@ -1,6 +1,7 @@
 # Copyright 2013 Philip N. Klein
 
-def getitem(v,k):
+
+def getitem(v, k):
     """
     Return the value of entry k in v.
     Be sure getitem(v,k) returns 0 if k is not represented in v.f.
@@ -12,9 +13,12 @@ def getitem(v,k):
     0
     """
     assert k in v.D
+    #return v.f[k] if k in v.f else 0
+    return v.f[k] if k in v.f.keys() else 0
     pass
 
-def setitem(v,k,val):
+
+def setitem(v, k, val):
     """
     Set the element of v with label d to be val.
     setitem(v,d,val) should set the value for key d even if d
@@ -32,9 +36,11 @@ def setitem(v,k,val):
     0
     """
     assert k in v.D
+    v.f[k] = val
     pass
 
-def equal(u,v):
+
+def equal(u, v):
     """
     Return true iff u is equal to v.
     Because of sparse representation, it is not enough to compare dictionaries
@@ -68,7 +74,20 @@ def equal(u,v):
     False
     """
     assert u.D == v.D
+    #for k in u.D:
+     #   if getitem(u,k) != getitem(v,k):
+      #      return false
+    #return true
+    for i in u.D:
+        if u[i] != v[i]:
+            return False
+    return True
     pass
+
+
+#assert Vec({'x','y','z'},{'y':1,'x':2}) != Vec({'x','y','z'},{'y':1,'z':0})
+#assert Vec({'a','b','c'}, {'a':0,'c':1,'b':4}) != Vec({'a','b','c'}, {'a':0,'c':1})
+
 
 def add(u,v):
     """
@@ -105,6 +124,8 @@ def add(u,v):
     True
     """
     assert u.D == v.D
+    if u.D == v.D:
+        return Vec(u.D, {d: getitem(u, d) + getitem(v, d) for d in u.D})
     pass
 
 def dot(u,v):
@@ -139,6 +160,7 @@ def dot(u,v):
     12
     """
     assert u.D == v.D
+    return sum(list(getitem(u, d) * getitem(v, d) for d in u.D))
     pass
 
 def scalar_mul(v, alpha):
@@ -159,6 +181,10 @@ def scalar_mul(v, alpha):
     >>> u == Vec({'x','y','z','w'},{'x':1,'y':2,'z':3,'w':4})
     True
     """
+    return Vec(
+    v.D,
+    {d: alpha*getitem(v, d) for d in v.D}
+    )
     pass
 
 def neg(v):
@@ -176,9 +202,11 @@ def neg(v):
     >>> -Vec({'a','b','c'}, {'a':1}) == Vec({'a','b','c'}, {'a':-1})
     True
     """
+    return scalar_mul(v, -1)
     pass
 
-###############################################################################################################################
+
+#######################################################################
 
 class Vec:
     """
