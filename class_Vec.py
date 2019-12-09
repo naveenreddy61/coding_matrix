@@ -7,12 +7,12 @@ Created on Wed May 22 16:02:26 2019
 
 import itertools
 from GF2 import one
+import vec
 
-
-class Vec:
-    def __init__(self, labels, function):
-        self.D = labels
-        self.f = function
+#class Vec:
+#    def __init__(self, labels, function):
+#        self.D = labels
+#        self.f = function
 
 
 # v = Vec({'A', 'B', 'C'}, {'A': 1})
@@ -131,7 +131,7 @@ v1 = Vec({'p', 'q', 'r', 's'}, {'p': 2, 's': 3, 'q': -1, 'r': 0})
 v2 = Vec({'p', 'q', 'r', 's'}, {'p': -2, 'r': 5})
 assert dot(u1, u2) == 5
 assert dot(v1, v2) == -4
-assert u1*u2 == 5
+assert u1 * u2 == 5
 
 
 def list_dot(u, v): return dot(list2vec(u), list2vec(v))
@@ -144,6 +144,14 @@ def dot_product_list(needle, haystack):
     s = len(needle)
     return [dot(needle, haystack[i:i+s]) for i in range(len(haystack)-s)]
 
+def triangular_solve_n(rowlist, b):
+    D = rowlist[0].D
+    x_vector = zero_vec(D)
+    n = len(D)
+    assert D == set(range(n))
+    for i in reversed(range(n)):
+        x_vector[i] = (b[i] - rowlist[i]*x)/rowlist[i][i]
+    return x
 
 
 

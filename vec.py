@@ -205,6 +205,12 @@ def neg(v):
     return scalar_mul(v, -1)
     pass
 
+# taken from vecutil.py
+def zero_vec(D):
+    """Returns a zero vector with the given domain
+    """
+    return Vec(D, {})
+
 
 #######################################################################
 
